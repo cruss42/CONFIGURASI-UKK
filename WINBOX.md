@@ -8,8 +8,9 @@ IP ADDRESS
 FIREWALL
 Chain = scrnat
 Out Interface to ether 1
-Chain = dstnat
 Action = masquerade
+
+Chain = dstnat
 Dst. Address = 172.16.100.36
 Dst. Port = 9090
 Action = dst-nat
