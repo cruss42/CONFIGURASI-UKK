@@ -1,4 +1,4 @@
-Email = smk@sch.id
+Email = siswa36@gmail.com
 Hostname = ukktkj.siswa36.local
 IP Address = 192.168.36.4/29
 Gateway = 192.168.36.1
