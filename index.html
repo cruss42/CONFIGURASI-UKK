@@ -1,16 +1,46 @@
 <html>
-  <body>
-    <pre>
-IP ADDRESS 
-172.16.100.136
-255.255.255.0
-172.16.100.254
+<head>
+    <title>Konfigurasi UKK Zefanya</title>
+    <style>
+        body { font-family: monospace; padding: 20px; line-height: 1.5; }
+        .box { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; background: #f9f9f9; }
+        h2 { color: #2c3e50; border-bottom: 2px solid #2c3e50; }
+    </style>
+</head>
+<body>
+    <h1>DAFTAR KONFIGURASI UKK</h1>
 
-DNS
-8.8.8.8
-1.1.1.1
+    <div class="box">
+        <h2>1. EKSTERNAL / IP ADDRESS</h2>
+        <pre>
+IP ADDRESS: 172.16.100.136
+NETMASK   : 255.255.255.0
+GATEWAY   : 172.16.100.254
+DNS       : 8.8.8.8, 1.1.1.1
+        </pre>
+    </div>
 
-Akses moodle ke 172.16.100.36:9090/moodle </pre>
-  </body>
+    <div class="box">
+        <h2>2. MOODLE</h2>
+        <pre>
+Akses Moodle ke: 172.16.100.36:9090/moodle
+(Tambahkan detail login/config moodle di sini)
+        </pre>
+    </div>
+
+    <div class="box">
+        <h2>3. PROXMOX</h2>
+        <pre>
+(Paste isi file PROXMOX.html kamu di sini)
+        </pre>
+    </div>
+
+    <div class="box">
+        <h2>4. WINBOX / MIKROTIK</h2>
+        <pre>
+(Paste isi file WINBOX.html kamu di sini)
+        </pre>
+    </div>
+
+</body>
 </html>
-
