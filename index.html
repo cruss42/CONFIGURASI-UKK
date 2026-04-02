@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Konfigurasi UKK Zefanya</title>
+    <title>Konfigurasi UKK</title>
     <style>
         body { font-family: monospace; padding: 20px; line-height: 1.5; }
         .box { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; background: #f9f9f9; }
@@ -16,31 +16,107 @@
 IP ADDRESS: 172.16.100.136
 NETMASK   : 255.255.255.0
 GATEWAY   : 172.16.100.254
-DNS       : 8.8.8.8, 1.1.1.1
+DNS       : 8.8.8.8, 1.1.1.
         </pre>
     </div>
 
     <div class="box">
-        <h2>2. MOODLE</h2>
+        <h2>2. WINBOX</h2>
         <pre>
-Akses Moodle ke: 172.16.100.36:9090/moodle
-(Tambahkan detail login/config moodle di sini)
+IP ADDRESS
+172.16.100.36/24: ETHER 1
+192.168.36.1/29 : ETHER 3
+192.168.100.1/24: ETHER 2
+
+FIREWALL
+Chain  :scrnat
+Out Interface to ether 1
+Action :masquerade
+
+Chain       : dstnat
+Dst. Address: 172.16.100.36
+Dst. Port   : 9090
+Action      : dst-nat
+To Address  : 192.168.36.2
+To Port     : 80
+
+DNS         : 8.8.8.8 - 1.1.1.1
+DHCP SERVER to ether 2
+
+Routes
+Gateway     : 172.16.100.254
         </pre>
     </div>
 
     <div class="box">
         <h2>3. PROXMOX</h2>
         <pre>
-(Paste isi file PROXMOX.html kamu di sini)
+Email     : siswa36@gmail.com
+Hostname  : ukktkj.siswa36.local
+IP Address: 192.168.36.4/29
+Gateway   : 192.168.36.1
+DNS Server: 1.1.1.1
+
+IPv4 configuration Web-server
+Subnet     : 192.168.36.0/29
+Address    : 192.168.36.2
+Gateway    : 192.168.36.1
+Name server: 8.8.8.8
+
+IPv4 configuration DB-server
+Subnet     : 192.168.36.0/29
+Address    : 192.168.36.3
+Gateway    : 192.168.36.1
+Name server: 8.8.8.8
         </pre>
     </div>
 
     <div class="box">
-        <h2>4. WINBOX / MIKROTIK</h2>
+        <h2>4. COMMAND PUTTY</h2>
         <pre>
-(Paste isi file WINBOX.html kamu di sini)
+WEB
+apt update 
+apt install apache2 -y
+apt install php php-{cli,mysql,gd,xml,curl,mbstring,intl,zip,soap,bcmath} -y
+cd /var/www/html/
+wget https://download.moodle.org/download.php/direct/stable405/moodle-latest-405.tgz
+tar -zxvf moodle-latest-405.tgz
+mkdir /var/www/moodledata
+chown -R www-data:www-data /var/www/moodledata/
+chmod -R 777 /var/www/moodledata/
+chown -R www-data:www-data moodle
+chmod -R 777 moodle
+nano /etc/php/8.3/apache2/php.ini > CTRL W > (MAX_INPUT_VAR) diganti (5000)
+systemctl restart apache2
+
+DB
+apt update
+apt install mariadb-server -y
+nano /etc/mysql/mariadb.conf.d/50-server.cnf (di ganti bind-address= 0.0.0.0)
+systemctl restart mariadb
+mysql
+CREATE DATABASE moodle DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'zefanya'@'%' IDENTIFIED BY '12345678' ;
+GRANT ALL PRIVILEGES ON moodle.* TO 'zefanya'@'%';
+FLUSH PRIVILEGES ;
+EXIT
+
+LANJUTAN EXTERNAL
+nano /var/www/html/moodle/config.php
+
+$CFG->wwwroot = 'http://' .$_SERVER['HTTP_HOST'] . '/moodle' ;
+
+ctrl X -> Y
         </pre>
     </div>
+
+    <div class="box">
+        <h2>4. MOODLE</h2>
+        <pre>
+Database Host    : 192.168.36.3
+Database User    : zefanya
+Database Password: 12345678
+Database Port    : 3306
 
 </body>
 </html>
