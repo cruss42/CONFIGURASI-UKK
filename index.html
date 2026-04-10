@@ -107,6 +107,25 @@ nano /var/www/html/moodle/config.php
 $CFG->wwwroot = 'http://' .$_SERVER['HTTP_HOST'] . '/moodle' ;
 
 ctrl X -> Y
+
+BACKUP (opsional)
+WEB
+mkdir -p /backup
+tar -czf /backup/web_$(date +%Y%m%d).tar /etc/apache2/ /var/www/html/
+
+DB
+mkdir -p /backup
+mysqldump -u root -p moodle > /backup/moodle_$(date +%Y%m%d).sql
+
+CRONJOB WEB
+crontab -e
+0 23 * * * tar -czf /backup/web_$(date +\%Y\%m\%d).tar /etc/apache2/ /var/www/html/ >> /var/log/backup.log 2>&1
+ls /backup
+
+CRONJOB DB
+crontab -e
+0 23 * * * mysqldump -u root -p12345678 moodle > /backup/moodle_$(date +\%Y\%m\%d).sql >> /var/log/backup.log 2>&1
+ls /backup
         </pre>
     </div>
 
@@ -126,6 +145,7 @@ zefanya:https://drive.google.com/drive/folders/1ocF75ur26rW32bN3wjU4NtHs1014Owki
 khoirul:https://drive.google.com/file/d/1jzO16Pm1x6qz_lqLpHskBHtepejIZPra/view?usp=sharing
 rizki:https://drive.google.com/file/d/1b9857apyK_uYEqcfYwxczn2b57nyjYfG/view?usp=sharing
 satria:https://drive.google.com/file/d/1-WgrgiyN-shjUkNHEcZhx74fdVVhIXWe/view?usp=sharing
+sixten:https://drive.google.com/file/d/1eYRo31MVQWVmE8WFmE18f_YCnykvfKC5/view?usp=sharing
 
 </body>   
 </html>
